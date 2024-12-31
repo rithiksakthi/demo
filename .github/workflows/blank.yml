@@ -9,8 +9,8 @@ on:
         default: "staging"
         type: choice
         options:
-          - staging
-          - production
+          - lms
+          - sfl
 
 jobs:
   print-secrets:
