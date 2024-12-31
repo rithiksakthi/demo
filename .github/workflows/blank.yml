@@ -24,4 +24,4 @@ jobs:
         run: |
           echo "Host: ${{ secrets[format('EC2_HOST_{0}', github.event.inputs.environment)] }}"
           echo "Username: ${{ secrets[format('EC2_USERNAME_{0}', github.event.inputs.environment)] }}"
-          echo "Private Key: ${{ secrets[format('SSH_PRIVATE_KEY_{0}', github.event.inputs.environment)] }}"
+        
