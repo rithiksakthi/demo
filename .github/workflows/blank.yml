@@ -17,8 +17,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    a
 
-      - name: Print Secrets for Selected Environment
+      - name: Set environment variables for selected environment
+        env:
+          EC2_HOST: ${{ secrets['EC2_HOST_' + github.event.inputs.environment] }}
+          EC2_USERNAME: ${{ secrets['EC2_USERNAME_' + github.event.inputs.environment] }}
         run: |
-          echo "Host: ${{ secrets[format('EC2_HOST_{0}', github.event.inputs.environment)] }}"
-          echo "Username: ${{ secrets[format('EC2_USERNAME_{0}', github.event.inputs.environment)] }}"
+          # Print a masked confirmation message
+          echo "Host is set for the selected environment."
+          echo "Username is set for the selected environment."
+          # Optionally check the length of the values to confirm they are set
+          if [ -z "$EC2_HOST" ]; then
+            echo "EC2_HOST is not set."
+          else
+            echo "EC2_HOST is set."
+          fi
+          
+          if [ -z "$EC2_USERNAME" ]; then
+            echo "EC2_USERNAME is not set."
+          else
+            echo "EC2_USERNAME is set."
+          fi
