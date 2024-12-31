@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    a
 
       - name: Set environment variables for selected environment
         env:
