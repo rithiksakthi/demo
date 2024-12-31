@@ -22,6 +22,5 @@ jobs:
 
       - name: Print Secrets for Selected Environment
         run: |
-          echo "Host: ${{ secrets[format('EC2_HOST_{0}', github.event.inputs.environment)] }}"
-          echo "Username: ${{ secrets[format('EC2_USERNAME_{0}', github.event.inputs.environment)] }}"
-        
+          echo "Host: ${{ secrets['EC2_HOST_' + github.event.inputs.environment] }}"
+          echo "Username: ${{ secrets['EC2_USERNAME_' + github.event.inputs.environment] }}"
