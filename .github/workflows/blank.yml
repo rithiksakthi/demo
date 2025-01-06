@@ -1,4 +1,4 @@
-name: Fetch Hostname and Username
+name: Transfer Files to EC2
 
 on:
   workflow_dispatch:
@@ -13,29 +13,18 @@ on:
           - lms
 
 jobs:
-  fetch-environment-vars:
+  transfer:
     runs-on: ubuntu-latest
 
     steps:
       - name: Display Selected Environment
-        run: echo "Selected environment:"${{ github.event.inputs.environment }}
-      - name: Print Repository Environment Variables
-        run: echo "ENV_VAR_1:" ${{ vars.ENV_VAR_1 }}
+        run: echo "Selected environment: ${{ github.event.inputs.environment }}"
 
-      - name: Fetch Hostname and Username
-        env: 
-          SELECTED_ENV: ${{ github.event.inputs.environment }}
-          HOST_SFL: ${{ secrets.EC2_HOST_SFL }}
-          USERNAME_SFL: ${{ secrets.EC2_USERNAME_SFL }}
-          HOST_LMS: ${{ secrets.EC2_HOST_LMS }}
-          USERNAME_LMS: ${{ secrets.EC2_USERNAME_LMS }}
-        run: |
-          if [ "$SELECTED_ENV" = "sfl" ]; then
-            echo "Host: $HOST_SFL"
-            echo "Username: $USERNAME_SFL"
-          elif [ "$SELECTED_ENV" = "lms" ]; then
-            echo "Host: $HOST_LMS"
-            echo "Username: $USERNAME_LMS"
-          else
-            echo "Invalid environment selected."
-          fi
+      - name: Transfer files to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets[format('EC2_HOST_${{ github.event.inputs.environment | upper }}')] }}
+          username: ${{ secrets[format('EC2_USERNAME_${{ github.event.inputs.environment | upper }}')] }}
+          key: ${{ secrets[format('SSH_PRIVATE_KEY_${{ github.event.inputs.environment | upper }}')] }}
+          source: 'super_admin_data.json'
+          target: '/var/www/html/'
