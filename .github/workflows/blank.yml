@@ -24,7 +24,7 @@ jobs:
           echo "Printing repository-level environment variables:"
           echo "GITHUB_ENV_VAR_1: $ENV_VAR_1"
         env:
-          GITHUB_ENV_VAR_1: ${{ vars.ENV_VAR_1 }}
+          ENV_VAR_1: ${{ vars.ENV_VAR_1 }}
 
       - name: Fetch Hostname and Username
         env: 
