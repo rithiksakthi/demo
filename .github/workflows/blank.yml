@@ -20,9 +20,7 @@ jobs:
       - name: Display Selected Environment
         run: echo "Selected environment:"${{ github.event.inputs.environment }}
       - name: Print Repository Environment Variables
-        env:
-          ENV_VAR_1: ${{ vars.ENV_VAR_1 }}
-        run: echo "ENV_VAR_1: $ENV_VAR_1"
+        run: echo "ENV_VAR_1:" ${{ vars.ENV_VAR_1 }}
 
       - name: Fetch Hostname and Username
         env: 
