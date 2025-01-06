@@ -20,10 +20,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-   
+
+      - name: Verify source file exists
+        run: ls -l super_admin_data.json
+
       - name: Transfer files to EC2
         uses: appleboy/scp-action@v0.1.7
-        run: ls -l super_admin_data.json
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
