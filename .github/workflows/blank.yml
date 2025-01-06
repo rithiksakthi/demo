@@ -32,9 +32,9 @@ jobs:
     - name: Transfer files to EC2
       uses: appleboy/scp-action@v0.1.7
       with:
-        host: HOST
-	username: USERNAME
-	key: KEY
+       host: ${{ env.HOST }}
+        username: ${{ env.USERNAME }}
+        key: ${{ env.KEY }}
         source: 'super_admin_data.json'
         target: '/var/www/html/minerva/'
         strip_components: 2
