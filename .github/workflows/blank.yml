@@ -32,4 +32,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: 'super_admin_data.json'
           target: '/var/www/html/minerva'
-          strip_components: 2
+          debug: true
