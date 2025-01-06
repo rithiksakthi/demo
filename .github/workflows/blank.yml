@@ -15,25 +15,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
+    environment: ${{ inputs.environment }}
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
    
-    - name: Run tests
-      run: echo "Running tests..."
-      env:
-        HOST: ${{ secrets.EC2_HOST }}
-        USERNAME: ${{ secrets.EC2_USERNAME }}
-        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    
     - name: Transfer files to EC2
       uses: appleboy/scp-action@v0.1.7
       with:
-        host: ${{ env.HOST }}
-        username: ${{ env.USERNAME }}
-        key: ${{ env.KEY }}
+        host: ${{ secrets.EC2_HOST }}
+	      username: ${{ secrets.EC2_USERNAME }}
+	      key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: 'super_admin_data.json'
         target: '/var/www/html/minerva/'
         strip_components: 2
