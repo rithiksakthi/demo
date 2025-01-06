@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Display Selected Environment
-        run: echo "Selected environment: ${{ github.event.inputs.environment }}"
+        run: echo "Selected environment:"${{ github.event.inputs.environment }}
 
       - name: Fetch Hostname and Username
         env: 
