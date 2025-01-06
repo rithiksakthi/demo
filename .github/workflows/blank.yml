@@ -1,4 +1,4 @@
-name: Test Environment Secrets
+name: Fetch Hostname and Username
 
 on:
   workflow_dispatch:
@@ -6,19 +6,34 @@ on:
       environment:
         description: "Select the environment"
         required: true
-        default: "staging"
+        default: "sfl"
         type: choice
         options:
           - sfl
           - lms
 
 jobs:
-  print-secrets:
+  fetch-environment-vars:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Display Selected Environment
+        run: echo "Selected environment: ${{ github.event.inputs.environment }}"
 
-      - name: Print Secrets for Selected Environment
+      - name: Fetch Hostname and Username
+        env: 
+          SELECTED_ENV: ${{ github.event.inputs.environment }}
+          HOST_SFL: ${{ secrets.EC2_HOST_SFL }}
+          USERNAME_SFL: ${{ secrets.EC2_USERNAME_SFL }}
+          HOST_LMS: ${{ secrets.EC2_HOST_LMS }}
+          USERNAME_LMS: ${{ secrets.EC2_USERNAME_LMS }}
         run: |
-          echo "Host: ${{ secrets[format('EC2_HOST_{0}', github.event.inputs.environment)] }}"
-          echo "Username: ${{ secrets[format('EC2_USERNAME_{0}', github.event.inputs.environment)] }}"
+          if [ "$SELECTED_ENV" = "sfl" ]; then
+            echo "Host: $HOST_SFL"
+            echo "Username: $USERNAME_SFL"
+          elif [ "$SELECTED_ENV" = "lms" ]; then
+            echo "Host: $HOST_LMS"
+            echo "Username: $USERNAME_LMS"
+          else
+            echo "Invalid environment selected."
+          fi
