@@ -25,8 +25,8 @@ jobs:
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.EC2_HOST }}
-	      username: ${{ secrets.EC2_USERNAME }}
-	      key: ${{ secrets.SSH_PRIVATE_KEY }}
+	username: ${{ secrets.EC2_USERNAME }}
+	key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: 'super_admin_data.json'
         target: '/var/www/html/minerva/'
         strip_components: 2
