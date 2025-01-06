@@ -17,9 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Display Selected Environment
-        run: echo "Selected environment: ${{ github.event.inputs.environment }}"
-
       - name: Transfer files to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
