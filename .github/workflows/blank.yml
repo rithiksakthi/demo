@@ -1,4 +1,4 @@
-name: Transfer Files to EC2
+name: Test Environment Secrets
 
 on:
   workflow_dispatch:
@@ -6,28 +6,35 @@ on:
       environment:
         description: "Select the environment"
         required: true
-        default: "sfl"
+        default: "staging"
         type: choice
         options:
           - sfl
           - lms
 
 jobs:
-  transfer:
+  deploy:
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
 
     steps:
-      - name: Set environment-specific secrets
-        id: set-secrets
-        run: echo "EC2_HOST=${{ secrets['EC2_HOST_' + github.event.inputs.environment | upper }}}" >> $GITHUB_ENV &&
-             echo "EC2_USERNAME=${{ secrets['EC2_USERNAME_' + github.event.inputs.environment | upper }}}" >> $GITHUB_ENV &&
-             echo "SSH_PRIVATE_KEY=${{ secrets['SSH_PRIVATE_KEY_' + github.event.inputs.environment | upper }}}" >> $GITHUB_ENV
+    - name: Checkout code
+      uses: actions/checkout@v4
+   
+    - name: Run tests
+      env:
+        HOST: ${{ secrets.EC2_HOST }}
+        USERNAME: ${{ secrets.EC2_USERNAME }}
+        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    
+    
 
-      - name: Transfer files to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ env.EC2_HOST }}
-          username: ${{ env.EC2_USERNAME }}
-          key: ${{ env.SSH_PRIVATE_KEY }}
-          source: 'super_admin_data.json'
-          target: '/var/www/html/'
+    - name: Transfer files to EC2
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: HOST
+	      username: USERNAME
+	      key: KEY
+        source: 'super_admin_data.json'
+        target: '/var/www/html/minerva/'
+        strip_components: 2
