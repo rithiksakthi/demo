@@ -28,5 +28,5 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: 'super_admin_data.json'
-          target: '/var/www/html/'
+          target: '/var/www/html/minerva'
           strip_components: 2
