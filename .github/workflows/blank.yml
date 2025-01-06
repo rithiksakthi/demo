@@ -15,18 +15,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}  # Correct reference to the input
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
    
-    - name: Transfer files to EC2
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.EC2_HOST }}
-	username: ${{ secrets.EC2_USERNAME }}
-	key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: 'super_admin_data.json'
-        target: '/var/www/html/minerva/'
-        strip_components: 2
+      - name: Transfer files to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: 'super_admin_data.json'
+          target: '/var/www/html/'
+          strip_components: 2
