@@ -36,5 +36,5 @@ jobs:
         username: ${{ env.USERNAME }}
         key: ${{ env.KEY }}
         source: 'super_admin_data.json'
-        target: '/var/www/html/minerva/'
+        target: '/var/www/html/'
         strip_components: 2
