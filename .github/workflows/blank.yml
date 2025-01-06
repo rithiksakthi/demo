@@ -17,11 +17,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set environment-specific secrets
+        id: set-secrets
+        run: echo "EC2_HOST=${{ secrets['EC2_HOST_' + github.event.inputs.environment | upper }}}" >> $GITHUB_ENV &&
+             echo "EC2_USERNAME=${{ secrets['EC2_USERNAME_' + github.event.inputs.environment | upper }}}" >> $GITHUB_ENV &&
+             echo "SSH_PRIVATE_KEY=${{ secrets['SSH_PRIVATE_KEY_' + github.event.inputs.environment | upper }}}" >> $GITHUB_ENV
+
       - name: Transfer files to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets[format('EC2_HOST_${{ github.event.inputs.environment | upper }}')] }}
-          username: ${{ secrets[format('EC2_USERNAME_${{ github.event.inputs.environment | upper }}')] }}
-          key: ${{ secrets[format('SSH_PRIVATE_KEY_${{ github.event.inputs.environment | upper }}')] }}
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
           source: 'super_admin_data.json'
           target: '/var/www/html/'
