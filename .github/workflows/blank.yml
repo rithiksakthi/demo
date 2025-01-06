@@ -22,13 +22,12 @@ jobs:
       uses: actions/checkout@v4
    
     - name: Run tests
+      run: echo "Running tests..."
       env:
         HOST: ${{ secrets.EC2_HOST }}
         USERNAME: ${{ secrets.EC2_USERNAME }}
         KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     
-    
-
     - name: Transfer files to EC2
       uses: appleboy/scp-action@v0.1.7
       with:
@@ -36,5 +35,5 @@ jobs:
         username: ${{ env.USERNAME }}
         key: ${{ env.KEY }}
         source: 'super_admin_data.json'
-        target: '/var/www/html/'
+        target: '/var/www/html/minerva/'
         strip_components: 2
